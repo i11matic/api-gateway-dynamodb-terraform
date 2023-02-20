@@ -42,34 +42,34 @@ variable "url_shortner_lambda_arn" {
 }
 
 
-variable "dax_cluster_name"{
-    description = "cluster name for the dax"
-    type = string
-    default = "dax-cluster"
+variable "dax_cluster_name" {
+  description = "cluster name for the dax"
+  type        = string
+  default     = "dax-cluster"
 }
 
 
-variable "dax_node_type"{
-    description = "node type"
-    type = string
-    default = "dax.t3.small"
+variable "dax_node_type" {
+  description = "node type"
+  type        = string
+  default     = "dax.t3.small"
 }
 
-variable "dax_replication_factor"{
-    description = "node type"
-    type = number
-    default = 1
+variable "dax_replication_factor" {
+  description = "node type"
+  type        = number
+  default     = 1
 }
 
 
-variable "dax_subnet_group"{
-    description = "subnet group for dax"
-    type = list
-    default = ["subnet-076c4ec57cf3fcf54"]
+variable "dax_subnet_group" {
+  description = "subnet group for dax"
+  type        = list(any)
+  default     = ["subnet-076c4ec57cf3fcf54"]
 }
 
-variable "dax_subnet_group_name"{
-    description = "name of the subnet group"
-    type = string
-    default = "dax-subnet-group"
+variable "dax_subnet_group_name" {
+  description = "name of the subnet group"
+  type        = string
+  default     = "dax-subnet-group"
 }
