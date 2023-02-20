@@ -1,7 +1,7 @@
 variable "dynamodb_url_shortener_table_name" {
   description = "table name"
   type        = string
-  default     = "url"
+  default     = "url-shortener"
 }
 
 variable "dynamodb_url_shortener_hash_key" {
