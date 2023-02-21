@@ -23,6 +23,12 @@ variable "api_gateway_domain_name" {
   default     = "notanotheradobo.com"
 }
 
+variable "api_gateway_access_log_destination_arn" {
+  description = "arn of the log group"
+  type        = string
+  default     = "arn:aws:logs:us-west-2:766251705079:log-group:api-gateway"
+}
+
 variable "api_gateway_cert_arn" {
   description = "arn for certificate"
   type        = string
@@ -41,35 +47,15 @@ variable "url_shortner_lambda_arn" {
   default     = "arn:aws:lambda:us-west-2:766251705079:function:AwsCdkUrlShortenerStack-urlsshortenerlambda7929501-OHQTqwPxoV1w"
 }
 
-
-variable "dax_cluster_name" {
-  description = "cluster name for the dax"
+variable "authorizer_lambda_name" {
+  description = "name for the lambda authorizer"
   type        = string
-  default     = "dax-cluster"
+  default     = "lambda-authorizer"
 }
 
 
-variable "dax_node_type" {
-  description = "node type"
+variable "url_shortener_lambda_name" {
+  description = "name for the url shortener lambda"
   type        = string
-  default     = "dax.t3.small"
-}
-
-variable "dax_replication_factor" {
-  description = "node type"
-  type        = number
-  default     = 1
-}
-
-
-variable "dax_subnet_group" {
-  description = "subnet group for dax"
-  type        = list(any)
-  default     = ["subnet-076c4ec57cf3fcf54"]
-}
-
-variable "dax_subnet_group_name" {
-  description = "name of the subnet group"
-  type        = string
-  default     = "dax-subnet-group"
+  default     = "AwsCdkUrlShortenerStack-urlsshortenerlambda7929501-OHQTqwPxoV1w"
 }
