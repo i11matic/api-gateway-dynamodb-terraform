@@ -79,15 +79,26 @@ resource "aws_lambda_permission" "authorizer_lambda_permission" {
   principal     = "apigateway.amazonaws.com"
 
 
-  source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:*"
+  source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:${module.api_gateway.apigatewayv2_api_id}/*/*/*"
 }
 
-resource "aws_lambda_permission" "url_shortner_lambda_permission" {
-  statement_id  = "url_shortner_lambda_invoke"
+resource "aws_lambda_permission" "url_shortner_lambda_permission_create" {
+  statement_id  = "url_shortner_lambda_invoke_create"
   action        = "lambda:InvokeFunction"
   function_name = var.url_shortener_lambda_name
   principal     = "apigateway.amazonaws.com"
 
 
-  source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:*"
+  source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:${module.api_gateway.apigatewayv2_api_id}/*/*/create"
+}
+
+
+resource "aws_lambda_permission" "url_shortner_lambda_permission_get" {
+  statement_id  = "url_shortner_lambda_invoke_get"
+  action        = "lambda:InvokeFunction"
+  function_name = var.url_shortener_lambda_name
+  principal     = "apigateway.amazonaws.com"
+
+
+  source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:${module.api_gateway.apigatewayv2_api_id}/*/*/get/{proxy+}"
 }
