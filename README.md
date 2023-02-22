@@ -31,8 +31,11 @@
 | [aws_lambda_permission.authorizer_lambda_permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.url_shortner_lambda_permission_create](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.url_shortner_lambda_permission_get](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
+| [aws_lambda_provisioned_concurrency_config.url_shortener_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_provisioned_concurrency_config) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_lambda_alias.url_shortener_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lambda_alias) | data source |
 | [aws_lambda_function.authorizer_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lambda_function) | data source |
+| [aws_lambda_function.url_shortener_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lambda_function) | data source |
 
 ## Inputs
 
@@ -51,7 +54,9 @@
 | <a name="input_dynamodb_url_shortener_hash_key"></a> [dynamodb\_url\_shortener\_hash\_key](#input\_dynamodb\_url\_shortener\_hash\_key) | hash key | `string` | `"shortUrl"` | no |
 | <a name="input_dynamodb_url_shortener_table_attribute_name"></a> [dynamodb\_url\_shortener\_table\_attribute\_name](#input\_dynamodb\_url\_shortener\_table\_attribute\_name) | attribute name for the table | `string` | `"shortUrl"` | no |
 | <a name="input_dynamodb_url_shortener_table_name"></a> [dynamodb\_url\_shortener\_table\_name](#input\_dynamodb\_url\_shortener\_table\_name) | table name | `string` | `"url-shortener"` | no |
+| <a name="input_url_shortener_lambda_alias_name"></a> [url\_shortener\_lambda\_alias\_name](#input\_url\_shortener\_lambda\_alias\_name) | alias name for lambda | `string` | `"Prod"` | no |
 | <a name="input_url_shortener_lambda_name"></a> [url\_shortener\_lambda\_name](#input\_url\_shortener\_lambda\_name) | name for the url shortener lambda | `string` | `"AwsCdkUrlShortenerStack-urlsshortenerlambda7929501-OHQTqwPxoV1w"` | no |
+| <a name="input_url_shortener_lambda_provisioned_concurrent_executions"></a> [url\_shortener\_lambda\_provisioned\_concurrent\_executions](#input\_url\_shortener\_lambda\_provisioned\_concurrent\_executions) | number of concurrency units | `number` | `2` | no |
 | <a name="input_url_shortner_lambda_arn"></a> [url\_shortner\_lambda\_arn](#input\_url\_shortner\_lambda\_arn) | ARN | `string` | `"arn:aws:lambda:us-west-2:766251705079:function:AwsCdkUrlShortenerStack-urlsshortenerlambda7929501-OHQTqwPxoV1w"` | no |
 
 ## Outputs
