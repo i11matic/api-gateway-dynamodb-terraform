@@ -7,6 +7,16 @@ data "aws_lambda_function" "authorizer_lambda" {
 }
 
 
+data "aws_lambda_function" "url_shortener_lambda" {
+  function_name = var.url_shortener_lambda_name
+}
+
+
+data "aws_lambda_alias" "url_shortener_lambda" {
+  function_name = data.aws_lambda_function.url_shortener_lambda.function_name
+  name          = var.url_shortener_lambda_alias_name
+}
+
 module "api_gateway" {
   source  = "terraform-aws-modules/apigateway-v2/aws"
   version = "2.2.2"
@@ -34,6 +44,7 @@ module "api_gateway" {
       timeout_milliseconds   = 12000
       authorizer_id          = aws_apigatewayv2_authorizer.lambda_auth.id
       integration_method     = "POST"
+      authorization_type     = "CUSTOM"
     }
 
     "GET /get/{proxy+}" = {
@@ -101,6 +112,12 @@ resource "aws_lambda_permission" "url_shortner_lambda_permission_get" {
 
 
   source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:${module.api_gateway.apigatewayv2_api_id}/*/*/get/{proxy+}"
+}
+
+resource "aws_lambda_provisioned_concurrency_config" "url_shortener_lambda" {
+  function_name                     = data.aws_lambda_alias.url_shortener_lambda.function_name
+  provisioned_concurrent_executions = var.url_shortener_lambda_provisioned_concurrent_executions
+  qualifier                         = data.aws_lambda_alias.url_shortener_lambda.name
 }
 
 

@@ -60,7 +60,18 @@ variable "url_shortener_lambda_name" {
   default     = "AwsCdkUrlShortenerStack-urlsshortenerlambda7929501-OHQTqwPxoV1w"
 }
 
+variable "url_shortener_lambda_alias_name" {
+  description = "alias name for lambda"
+  type        = string
+  default     = "Prod"
+}
 
+variable "url_shortener_lambda_provisioned_concurrent_executions" {
+  description = "number of concurrency units"
+  type        = number
+  default     = 2
+
+}
 
 variable "dax_cluster_name" {
   description = "cluster name for the dax"
