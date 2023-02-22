@@ -17,6 +17,12 @@ data "aws_lambda_alias" "url_shortener_lambda" {
   name          = var.url_shortener_lambda_alias_name
 }
 
+
+data "aws_route53_zone" "notanotheradobo_zone" {
+  name = var.route_53_zone_name
+}
+
+
 module "api_gateway" {
   source  = "terraform-aws-modules/apigateway-v2/aws"
   version = "2.2.2"
@@ -56,6 +62,25 @@ module "api_gateway" {
 
     "$default" = {
       lambda_arn = var.url_shortner_lambda_arn
+      tls_config = jsonencode({
+        server_name_to_verify = "api.${var.route_53_zone_name}"
+      })
+
+      response_parameters = jsonencode([
+        {
+          status_code = 500
+          mappings = {
+            "append:header.header1" = "$context.requestId"
+            "overwrite:statuscode"  = "403"
+          }
+        },
+        {
+          status_code = 404
+          mappings = {
+            "append:header.error" = "$stageVariables.environmentId"
+          }
+        }
+      ])
     }
   }
 }
@@ -183,4 +208,16 @@ resource "aws_iam_policy_attachment" "dax_iam_policy_attachment" {
   name       = "dax iam policy attachment"
   roles      = [aws_iam_role.dax_role.name]
   policy_arn = aws_iam_policy.dax_dynamodb_policy.arn
+}
+
+
+resource "aws_route53_record" "api_gateway_dns" {
+  zone_id = data.aws_route53_zone.notanotheradobo_zone.zone_id
+  name    = "api.notanotheradobo.com"
+  type    = "A"
+  alias {
+    name                   = module.api_gateway.apigatewayv2_domain_name_target_domain_name
+    zone_id                = module.api_gateway.apigatewayv2_domain_name_hosted_zone_id
+    evaluate_target_health = true
+  }
 }

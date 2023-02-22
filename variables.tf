@@ -20,7 +20,7 @@ variable "dynamodb_url_shortener_table_attribute_name" {
 variable "api_gateway_domain_name" {
   description = "domain name"
   type        = string
-  default     = "notanotheradobo.com"
+  default     = "api.notanotheradobo.com"
 }
 
 variable "api_gateway_access_log_destination_arn" {
@@ -32,7 +32,7 @@ variable "api_gateway_access_log_destination_arn" {
 variable "api_gateway_cert_arn" {
   description = "arn for certificate"
   type        = string
-  default     = "arn:aws:acm:us-west-2:766251705079:certificate/fabff9a6-d46f-42f5-9070-3d7b325333e8"
+  default     = "arn:aws:acm:us-west-2:766251705079:certificate/544c3e9b-45dc-4ff1-8650-c7da9dbb8042"
 }
 
 variable "api_gateway_name" {
@@ -103,4 +103,11 @@ variable "dax_subnet_group_name" {
   description = "name of the subnet group"
   type        = string
   default     = "dax-subnet-group"
+}
+
+
+variable "route_53_zone_name" {
+  description = "name of the route 53 zone"
+  type        = string
+  default     = "notanotheradobo.com"
 }
