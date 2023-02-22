@@ -79,7 +79,7 @@ resource "aws_lambda_permission" "authorizer_lambda_permission" {
   principal     = "apigateway.amazonaws.com"
 
 
-  source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:${module.api_gateway.apigatewayv2_api_id}/*/*/*"
+  source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:${module.api_gateway.apigatewayv2_api_id}/*/*"
 }
 
 resource "aws_lambda_permission" "url_shortner_lambda_permission_create" {
