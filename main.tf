@@ -102,3 +102,68 @@ resource "aws_lambda_permission" "url_shortner_lambda_permission_get" {
 
   source_arn = "arn:aws:execute-api:us-west-2:${data.aws_caller_identity.current.account_id}:${module.api_gateway.apigatewayv2_api_id}/*/*/get/{proxy+}"
 }
+
+
+resource "aws_dax_cluster" "dax" {
+  cluster_name       = var.dax_cluster_name
+  iam_role_arn       = aws_iam_role.dax_role.arn
+  node_type          = var.dax_node_type
+  replication_factor = var.dax_replication_factor
+  subnet_group_name  = var.dax_subnet_group_name
+  depends_on         = [aws_dax_subnet_group.dax_subnet_group]
+}
+
+resource "aws_dax_subnet_group" "dax_subnet_group" {
+  name       = var.dax_subnet_group_name
+  subnet_ids = var.dax_subnet_group
+}
+
+resource "aws_iam_role" "dax_role" {
+  name = "dax_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "dax.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_policy" "dax_dynamodb_policy" {
+  name = "dax_dynamodb_policy"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "dynamodb:DescribeTable",
+          "dynamodb:PutItem",
+          "dynamodb:GetItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:Query",
+          "dynamodb:Scan",
+          "dynamodb:BatchGetItem",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:ConditionCheckItem"
+        ]
+        Effect   = "Allow"
+        Resource = "arn:aws:dynamodb:us-west-2:${data.aws_caller_identity.current.account_id}:*"
+
+      },
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "dax_iam_policy_attachment" {
+  name       = "dax iam policy attachment"
+  roles      = [aws_iam_role.dax_role.name]
+  policy_arn = aws_iam_policy.dax_dynamodb_policy.arn
+}
